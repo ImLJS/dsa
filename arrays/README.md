@@ -1,267 +1,336 @@
 # 📦 Arrays
 
-> The backbone of DSA. Most problems ultimately reduce to array manipulation.
+> The backbone of DSA. Nearly every algorithm eventually manipulates an array. Master these five patterns and you have a toolkit that solves the majority of array problems at any difficulty level.
+
+---
+
+## Folder Structure
+
+```
+arrays/
+├── README.md              ← you are here
+├── basics.md              ← warm-up problems, no named pattern needed
+├── my_solutions.md        ← your personal progress log
+└── problems/
+    ├── misc/              ← problems that don't fit a named pattern
+    ├── two_pointers/
+    ├── sliding_window/
+    ├── prefix_sum/
+    ├── kadanes/
+    └── hashmap/
+```
 
 ---
 
 ## Patterns Overview
 
-| Pattern | When to Use | Key Idea |
-|---------|------------|---------|
-| [Two Pointers](#-two-pointers) | Sorted array, pairs/triplets | Left & right pointers move inward |
-| [Sliding Window](#-sliding-window) | Contiguous subarray with constraint | Expand right, shrink left |
-| [Prefix Sum](#-prefix-sum) | Range sum queries, subarray sum = k | Build once O(n), query O(1) |
-| [Kadane's Algorithm](#-kadanes-algorithm) | Max/min contiguous subarray sum | Extend or restart running sum |
-| [Sorting-based](#-sorting-based-patterns) | Intervals, duplicates, custom order | Sort unlocks greedy/two-pointer |
-| [HashMap / Frequency](#-hashmap--frequency-count) | Complements, duplicates, counts | O(1) lookup per element |
+| Pattern | When to Use | Trigger Keywords |
+|---------|------------|-----------------|
+| [Two Pointers](#-two-pointers) | Sorted array, pairs, triplets | "sorted", "pair that sums to", "remove duplicates in-place" |
+| [Sliding Window](#-sliding-window) | Contiguous subarray with a constraint | "contiguous subarray", "substring", "at most k", "longest/shortest" |
+| [Prefix Sum](#-prefix-sum) | Range queries, subarray sum = k | "range sum", "subarray sum equals", "sum between indices" |
+| [Kadane's Algorithm](#-kadanes-algorithm) | Max/min contiguous subarray | "maximum subarray", "largest sum contiguous" |
+| [HashMap / Frequency](#-hashmap--frequency-count) | Complements, duplicates, counts | "two sum", "frequency", "anagram", "duplicate" |
+
+> **Note on sorting:** Problems where you sort as a first step (e.g. 3Sum sorts before two-pointers) stay in the relevant pattern folder. Problems where sorting *is* the core skill (Sort Colors, Largest Number, Kth Largest) live in `sorting/`.
 
 ---
 
 ## 👉 Two Pointers
 
-**When to use:** Array is sorted OR you need pairs/triplets. Move left and right pointers toward each other until they meet.
+**When to use:** Array is sorted OR you need to find pairs/triplets with a target sum. Place one pointer at each end and move them inward based on the current sum vs target.
 
-**Trigger keywords:** "sorted array", "pair that sums to", "remove duplicates in-place", "reverse"
+**Trigger keywords:** "sorted array", "pair that sums to", "remove duplicates in-place", "reverse in-place"
+
+**Time:** O(n) &nbsp;&nbsp; **Space:** O(1)
 
 ```python
-left, right = 0, len(arr) - 1
-while left < right:
-    current = arr[left] + arr[right]
-    if current == target:
-        return [left, right]
-    elif current < target:
-        left += 1
-    else:
-        right -= 1
+# Template — find pair summing to target in sorted array
+def two_sum_sorted(arr, target):
+    left, right = 0, len(arr) - 1
+
+    while left < right:
+        current = arr[left] + arr[right]
+        if current == target:
+            return [left, right]
+        elif current < target:
+            left += 1       # need a bigger sum — move left forward
+        else:
+            right -= 1      # need a smaller sum — move right backward
+
+    return []
+```
+
+```python
+# Write-head variant — remove duplicates / move zeroes
+def remove_duplicates(nums):
+    write = 1                           # write_head starts at index 1
+
+    for read in range(1, len(nums)):
+        if nums[read] != nums[write - 1]:   # new unique value found
+            nums[write] = nums[read]
+            write += 1
+
+    return write                        # new length
 ```
 
 ### Problems
 
 | Problem | LC # | Difficulty | Key Insight |
 |---------|------|-----------|------------|
-| Two Sum II — Input Array Is Sorted | #167 | 🟢 Easy | Classic two-pointer on sorted array |
-| Remove Duplicates from Sorted Array | #26 | 🟢 Easy | Left pointer acts as write head |
-| 3Sum | #15 | 🟡 Medium | Sort + fix one element, two-pointer for rest |
-| Container With Most Water | #11 | 🟡 Medium | Shrink the shorter side each step |
-| Trapping Rain Water | #42 | 🔴 Hard | Track max boundary from both directions |
-| 3Sum Closest | #16 | 🟡 Medium | Track minimum absolute difference from target |
+| Two Sum II — Input Array Is Sorted | #167 | 🟢 Easy | Classic inward two-pointer on sorted array |
+| Remove Duplicates from Sorted Array | #26 | 🟢 Easy | Left pointer is the write-head |
+| Move Zeroes | #283 | 🟢 Easy | Write-head skips over zeroes |
+| 3Sum | #15 | 🟡 Medium | Sort first, fix one element, two-pointer for the other two |
+| 3Sum Closest | #16 | 🟡 Medium | Track closest sum seen, minimise absolute difference |
+| Container With Most Water | #11 | 🟡 Medium | Always move the shorter side inward |
+| Trapping Rain Water | #42 | 🔴 Hard | Track max from both ends — water = min(left_max, right_max) - height |
 
 ### Common Mistakes
-- Forgetting to sort the array first
-- Not handling duplicates (skip `while arr[left] == arr[left-1]`)
-- Off-by-one on pointer movement
+
+- **Forgetting to sort first.** Two pointers only work on sorted data (or problems where order is irrelevant like write-head pattern).
+- **Not skipping duplicates in 3Sum.** After finding a valid triplet, advance both pointers and skip `while arr[left] == arr[left-1]`.
+- **Wrong pointer movement.** Move the pointer on the side that can't improve the current result.
 
 ---
 
 ## 🪟 Sliding Window
 
-**When to use:** Contiguous subarray/substring with a constraint. Fixed window = known size `k`. Variable window = expand right, shrink left when constraint breaks.
+**When to use:** Find the longest/shortest/best contiguous subarray or substring satisfying a constraint. Fixed window = known size k. Variable window = expand right, shrink left when constraint breaks.
 
-**Trigger keywords:** "contiguous subarray", "substring", "at most k distinct", "longest/shortest subarray with..."
+**Trigger keywords:** "contiguous subarray", "substring", "at most k distinct", "longest without repeating", "minimum size"
+
+**Time:** O(n) &nbsp;&nbsp; **Space:** O(1) fixed, O(k) variable
 
 ```python
-# Variable window template
-left = 0
-result = 0
-window_state = {}  # or a counter
+# Fixed window — size k
+def fixed_window(arr, k):
+    window_sum = sum(arr[:k])
+    result = window_sum
 
-for right in range(len(arr)):
-    # 1. Expand: add arr[right] to window
-    window_state[arr[right]] = window_state.get(arr[right], 0) + 1
+    for i in range(k, len(arr)):
+        window_sum += arr[i] - arr[i - k]      # slide: add new, remove old
+        result = max(result, window_sum)
 
-    # 2. Shrink: while window is invalid
-    while not is_valid(window_state):
-        window_state[arr[left]] -= 1
-        if window_state[arr[left]] == 0:
-            del window_state[arr[left]]
-        left += 1
+    return result
+```
 
-    # 3. Update result
-    result = max(result, right - left + 1)
+```python
+# Variable window — expand right, shrink left
+def variable_window(arr):
+    left = 0
+    result = 0
+    window_state = {}       # track whatever the constraint is
 
-return result
+    for right in range(len(arr)):
+        # 1. Expand: add arr[right] to window
+        window_state[arr[right]] = window_state.get(arr[right], 0) + 1
+
+        # 2. Shrink: while window violates constraint
+        while not is_valid(window_state):
+            window_state[arr[left]] -= 1
+            if window_state[arr[left]] == 0:
+                del window_state[arr[left]]
+            left += 1
+
+        # 3. Update result with current valid window
+        result = max(result, right - left + 1)
+
+    return result
 ```
 
 ### Problems
 
 | Problem | LC # | Difficulty | Key Insight |
 |---------|------|-----------|------------|
-| Best Time to Buy and Sell Stock | #121 | 🟢 Easy | Track min price so far, record max profit |
+| Best Time to Buy and Sell Stock | #121 | 🟢 Easy | Track running min price, record max profit |
 | Maximum Average Subarray I | #643 | 🟢 Easy | Fixed window of exactly size k |
-| Minimum Size Subarray Sum | #209 | 🟡 Medium | Variable — shrink when running sum ≥ target |
-| Longest Repeating Character Replacement | #424 | 🟡 Medium | `window_size − max_freq ≤ k` |
+| Minimum Size Subarray Sum | #209 | 🟡 Medium | Shrink when running sum >= target |
+| Longest Repeating Character Replacement | #424 | 🟡 Medium | `window_size - max_freq <= k` is the invariant |
 | Fruit Into Baskets | #904 | 🟡 Medium | At most 2 distinct values — variable window |
-| Sliding Window Maximum | #239 | 🔴 Hard | Monotonic deque keeps max at front |
+| Sliding Window Maximum | #239 | 🔴 Hard | Monotonic deque keeps the max at front |
 
 ### Common Mistakes
-- Using `list.pop(0)` instead of `deque.popleft()` — O(n) vs O(1)
-- Forgetting to shrink the window before updating the result
-- Shrinking too aggressively (shrink only until valid, not more)
+
+- **Using `list.pop(0)` instead of `deque.popleft()`.** The first is O(n), the second is O(1). Always use `deque` for sliding window maximum.
+- **Updating result before shrinking.** Always shrink first, then update. Recording an invalid window inflates your result.
+- **Over-shrinking.** Only shrink until the window is valid again — not further.
 
 ---
 
 ## ➕ Prefix Sum
 
-**When to use:** Range sum queries or finding subarrays that sum to a target. Build the prefix array once in O(n), answer each query in O(1).
+**When to use:** Answer range sum queries in O(1) after an O(n) build step. Find subarrays summing to a target k using a running sum + hashmap.
 
-**Trigger keywords:** "range sum", "subarray sum equals k", "sum between indices i and j"
+**Trigger keywords:** "range sum", "subarray sum equals k", "sum between indices i and j", "pivot index"
+
+**Time:** O(n) build + O(1) query &nbsp;&nbsp; **Space:** O(n)
 
 ```python
-# Build
-prefix = [0] * (len(arr) + 1)
-for i, val in enumerate(arr):
-    prefix[i + 1] = prefix[i] + val
+# Build prefix sum array
+def build_prefix(arr):
+    prefix = [0] * (len(arr) + 1)      # prefix[0] = 0 (empty prefix)
+    for i, val in enumerate(arr):
+        prefix[i + 1] = prefix[i] + val
+    return prefix
 
-# Query: sum of arr[l..r] inclusive
-def range_sum(l, r):
-    return prefix[r + 1] - prefix[l]
+# Range sum query — sum of arr[l..r] inclusive
+def range_sum(prefix, l, r):
+    return prefix[r + 1] - prefix[l]   # note: prefix[l] not prefix[l-1]
+```
 
-# Subarray sum == k  →  prefix + hashmap
+```python
+# Subarray sum equals k — prefix sum + hashmap
 from collections import defaultdict
-count = defaultdict(int)
-count[0] = 1
-running = 0
-result = 0
-for val in arr:
-    running += val
-    result += count[running - k]
-    count[running] += 1
+
+def subarray_sum(arr, k):
+    count = defaultdict(int)
+    count[0] = 1            # empty prefix has sum 0 — CRITICAL initialisation
+    running = 0
+    result = 0
+
+    for val in arr:
+        running += val
+        result += count[running - k]    # how many prefixes give us sum k
+        count[running] += 1
+
+    return result
 ```
 
 ### Problems
 
 | Problem | LC # | Difficulty | Key Insight |
 |---------|------|-----------|------------|
-| Running Sum of 1D Array | #1480 | 🟢 Easy | Textbook prefix sum |
-| Range Sum Query (Immutable) | #303 | 🟢 Easy | `prefix[r] − prefix[l−1]` |
-| Subarray Sum Equals K | #560 | 🟡 Medium | Prefix + hashmap, count complements |
-| Product of Array Except Self | #238 | 🟡 Medium | Prefix product × suffix product |
-| Find Pivot Index | #724 | 🟢 Easy | `left_sum == total − left − arr[i]` |
-| Continuous Subarray Sum | #523 | 🟡 Medium | Prefix mod k + first-seen hashmap |
+| Running Sum of 1D Array | #1480 | 🟢 Easy | Textbook prefix sum, built in-place |
+| Range Sum Query (Immutable) | #303 | 🟢 Easy | `prefix[r+1] - prefix[l]` |
+| Find Pivot Index | #724 | 🟢 Easy | `left_sum == total - left_sum - arr[i]` |
+| Subarray Sum Equals K | #560 | 🟡 Medium | Running sum + hashmap, count complements |
+| Product of Array Except Self | #238 | 🟡 Medium | Prefix product × suffix product, no division |
+| Continuous Subarray Sum | #523 | 🟡 Medium | Prefix mod k + first-seen index hashmap |
+| Subarray Sums Divisible by K | #974 | 🟡 Medium | Prefix mod k, count matching remainders |
 
 ### Common Mistakes
-- Off-by-one: `prefix[r+1] - prefix[l]` not `prefix[r] - prefix[l-1]`
-- Forgetting to initialise `count[0] = 1` for the "empty prefix" case
+
+- **Off-by-one.** Use `prefix[r+1] - prefix[l]` not `prefix[r] - prefix[l-1]`. The `+1` offset in the prefix array is what makes this clean.
+- **Forgetting `count[0] = 1`.** Without this initialisation, subarrays starting from index 0 are missed entirely.
 
 ---
 
 ## 📈 Kadane's Algorithm
 
-**When to use:** Maximum or minimum sum of a contiguous subarray. Extend the current run or restart from the current element.
+**When to use:** Find the maximum (or minimum) sum of a contiguous subarray. At each element, decide whether to extend the current subarray or start fresh from this element.
 
-**Trigger keywords:** "maximum subarray", "contiguous subarray with largest sum"
+**Trigger keywords:** "maximum subarray", "contiguous subarray with largest sum", "max/min product subarray"
+
+**Time:** O(n) &nbsp;&nbsp; **Space:** O(1)
 
 ```python
-# Standard Kadane's
-max_sum = arr[0]
-current = arr[0]
+# Standard Kadane's — maximum sum
+def max_subarray(arr):
+    current = max_sum = arr[0]
 
-for val in arr[1:]:
-    current = max(val, current + val)   # extend or restart
-    max_sum = max(max_sum, current)
+    for val in arr[1:]:
+        current = max(val, current + val)   # extend or restart
+        max_sum = max(max_sum, current)
 
-return max_sum
+    return max_sum
 ```
 
 ```python
-# Product variant — track both max and min (negatives flip sign)
-max_prod = min_prod = result = arr[0]
+# Product variant — track both max AND min (negatives flip sign)
+def max_product(arr):
+    max_prod = min_prod = result = arr[0]
 
-for val in arr[1:]:
-    candidates = (val, max_prod * val, min_prod * val)
-    max_prod = max(candidates)
-    min_prod = min(candidates)
-    result = max(result, max_prod)
+    for val in arr[1:]:
+        candidates = (val, max_prod * val, min_prod * val)
+        max_prod = max(candidates)
+        min_prod = min(candidates)
+        result = max(result, max_prod)
 
-return result
-```
-
-### Problems
-
-| Problem | LC # | Difficulty | Key Insight |
-|---------|------|-----------|------------|
-| Maximum Subarray | #53 | 🟡 Medium | Core Kadane — reset when current sum < 0 |
-| Maximum Product Subarray | #152 | 🟡 Medium | Track both max and min (negatives flip sign) |
-| Maximum Sum Circular Subarray | #918 | 🟡 Medium | `total − min_subarray` OR normal Kadane |
-| Longest Turbulent Subarray | #978 | 🟡 Medium | Extend on alternating signs, else reset |
-
----
-
-## 🔀 Sorting-based Patterns
-
-**When to use:** Sort to unlock two-pointer logic, greedy interval merging, or clean duplicate handling.
-
-**Trigger keywords:** "merge intervals", "overlapping intervals", "sort and..."
-
-```python
-# Merge Intervals
-intervals.sort(key=lambda x: x[0])
-merged = [intervals[0]]
-
-for start, end in intervals[1:]:
-    if start <= merged[-1][1]:          # overlap
-        merged[-1][1] = max(merged[-1][1], end)
-    else:
-        merged.append([start, end])
+    return result
 ```
 
 ### Problems
 
 | Problem | LC # | Difficulty | Key Insight |
 |---------|------|-----------|------------|
-| Sort Colors (Dutch National Flag) | #75 | 🟡 Medium | 3-way partition in-place |
-| Merge Intervals | #56 | 🟡 Medium | Sort by start, merge overlapping |
-| Insert Interval | #57 | 🟡 Medium | Find insertion point + merge |
-| Largest Number | #179 | 🟡 Medium | Custom comparator: `a+b` vs `b+a` |
+| Maximum Subarray | #53 | 🟡 Medium | Reset current when `current + val < val` |
+| Maximum Product Subarray | #152 | 🟡 Medium | Track both max and min — negatives flip |
+| Maximum Sum Circular Subarray | #918 | 🟡 Medium | `max(normal_kadane, total - min_subarray)` |
+| Longest Turbulent Subarray | #978 | 🟡 Medium | Extend on alternating signs, else reset to 1 |
+
+### Common Mistakes
+
+- **Initialising with 0 instead of `arr[0]`.** If all elements are negative, the correct answer is the largest negative, not 0.
+- **Forgetting the product variant needs both max and min.** A negative times a negative is positive — the min could become the max.
 
 ---
 
 ## 🗺️ HashMap / Frequency Count
 
-**When to use:** Count occurrences, detect duplicates, find complement pairs — all in O(1) per lookup.
+**When to use:** Count element occurrences, detect duplicates, or find complement pairs — all in O(1) per lookup using a dictionary or set.
 
-**Trigger keywords:** "two sum", "frequency", "anagram", "duplicate", "complement"
+**Trigger keywords:** "two sum", "frequency", "anagram", "duplicate", "complement", "most common"
+
+**Time:** O(n) &nbsp;&nbsp; **Space:** O(n)
 
 ```python
-from collections import Counter, defaultdict
+# Complement lookup — Two Sum
+def two_sum(nums, target):
+    seen = {}                           # value → index
 
-# Complement lookup
-seen = {}
-for i, val in enumerate(arr):
-    if target - val in seen:
-        return [seen[target - val], i]
-    seen[val] = i
+    for i, val in enumerate(nums):
+        complement = target - val
+        if complement in seen:
+            return [seen[complement], i]
+        seen[val] = i
 
-# Frequency count
+    return []
+```
+
+```python
+from collections import Counter
+
+# Frequency counting
 freq = Counter(arr)
-freq.most_common(k)      # top-k elements
+freq.most_common(k)             # top-k most frequent elements
+
+# Group by transformed key
+from collections import defaultdict
+groups = defaultdict(list)
+for word in words:
+    groups[tuple(sorted(word))].append(word)   # group anagrams
 ```
 
 ### Problems
 
 | Problem | LC # | Difficulty | Key Insight |
 |---------|------|-----------|------------|
-| Two Sum | #1 | 🟢 Easy | Complement lookup in hashmap |
-| Contains Duplicate | #217 | 🟢 Easy | Set membership check |
-| Majority Element | #169 | 🟢 Easy | Counter or Boyer-Moore voting |
-| Top K Frequent Elements | #347 | 🟡 Medium | Counter + heap or bucket sort |
+| Two Sum | #1 | 🟢 Easy | Complement lookup — store value → index |
+| Contains Duplicate | #217 | 🟢 Easy | Set membership check — O(n) time O(n) space |
+| Majority Element | #169 | 🟢 Easy | Counter or Boyer-Moore voting algorithm |
+| Top K Frequent Elements | #347 | 🟡 Medium | Counter + min-heap of size k |
 | Group Anagrams | #49 | 🟡 Medium | `sorted(word)` as the hashmap key |
 | Longest Consecutive Sequence | #128 | 🟡 Medium | Set — only start chains at sequence minimum |
+
+### Common Mistakes
+
+- **Using `dict` when `set` is enough.** If you only need existence checks (not values), use a set.
+- **Not handling the case where complement == val.** In Two Sum, `seen[complement]` must exist AND be a different index.
 
 ---
 
 ## 🔀 Combined Practice
 
-> These problems require mixing 2+ patterns. Spend 15+ minutes before checking hints.
+> These problems require mixing 2 or more patterns. Spend at least 15 minutes before checking hints.
 
 | Problem | LC # | Difficulty | Patterns Required |
 |---------|------|-----------|------------------|
-| Maximum Points You Can Obtain from Cards | #1423 | 🟡 Medium | Sliding Window + Prefix Sum |
-| Subarray Sums Divisible by K | #974 | 🟡 Medium | Prefix Sum + HashMap (mod) |
-| 4Sum | #18 | 🟡 Medium | Sort + Two Pointer × 2 |
-| Minimum Operations to Reduce X to Zero | #1658 | 🟡 Medium | Sliding Window + Prefix |
-| Find All Anagrams in a String | #438 | 🟡 Medium | Sliding Window + Frequency Map |
 | Minimum Window Substring | #76 | 🔴 Hard | Sliding Window + Dual HashMaps |
+| Subarray Sums Divisible by K | #974 | 🟡 Medium | Prefix Sum + HashMap (mod arithmetic) |
+| 4Sum | #18 | 🟡 Medium | Sort + Two Pointer × 2 |
+| Minimum Operations to Reduce X to Zero | #1658 | 🟡 Medium | Sliding Window + Prefix Sum |
+| Find All Anagrams in a String | #438 | 🟡 Medium | Sliding Window + Frequency Map |
 | Max Sum of 3 Non-Overlapping Subarrays | #689 | 🔴 Hard | Prefix Sum + Sliding Window + DP |
 
 ---
@@ -272,7 +341,6 @@ freq.most_common(k)      # top-k elements
 |----------|------|---------|
 | NeetCode Arrays Playlist | youtube.com/@NeetCode | Best video per pattern with clean Python |
 | LeetCode Explore — Arrays | leetcode.com/explore/learn/card/array-and-string | Official structured problem card |
-| VisuAlgo Sorting | visualgo.net/en/sorting | Animated sorting algorithm walkthroughs |
 
 ---
 
@@ -282,21 +350,31 @@ freq.most_common(k)      # top-k elements
 # Reverse
 arr[::-1]
 
-# Enumerate (index + value)
+# Enumerate — index + value together
 for i, val in enumerate(arr):
+    pass
 
-# Zip two arrays
+# Zip two arrays in parallel
 for a, b in zip(arr1, arr2):
+    pass
 
 # Sort by custom key
-arr.sort(key=lambda x: (x[1], -x[0]))
+arr.sort(key=lambda x: (x[1], -x[0]))      # primary asc, secondary desc
 
 # List comprehension with filter
-[x for x in arr if x > 0]
+evens = [x for x in arr if x % 2 == 0]
 
 # Flatten 2D list
-[x for row in matrix for x in row]
+flat = [x for row in matrix for x in row]
 
 # Transpose matrix
-list(zip(*matrix))
+transposed = list(zip(*matrix))
+
+# Prefix sum in-place
+for i in range(1, len(arr)):
+    arr[i] += arr[i - 1]
+
+# Quick frequency count
+from collections import Counter
+freq = Counter(arr)
 ```

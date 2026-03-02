@@ -1,4 +1,4 @@
-# Valid Palindrome - Easy - LeetCode 125
+# 125. Valid Palindrome - Easy
 
 # Link - https://leetcode.com/problems/valid-palindrome/
 
