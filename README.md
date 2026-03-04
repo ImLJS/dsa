@@ -1,44 +1,39 @@
-# DSA — Python
+# DSA Practice — Python
 
-> Pattern-by-pattern preparation for coding interviews, with curated problems and solutions.
+> Pattern-by-pattern interview preparation · 14 Topics
+
 ---
 
 ## Folder Structure
 
 ```
-dsa/
+dsa-practice/
 │
 ├── README.md
 │
-├── arrays/
+├── arrays_strings/
 │   ├── README.md              ← patterns, notes, tips
-│   ├── sorting/               ← algorithm implementations
-│   ├── two_pointers/          ← pattern problems
+│   ├── two_pointers/
 │   ├── sliding_window/
 │   ├── prefix_sum/
 │   ├── kadanes/
 │   └── hashmap/
 │
-├── strings/
-│   ├── README.md
-│   ├── sliding_window/
-│   ├── two_pointers/
-│   ├── hashmap/
-│   └── parsing/
-│
 ├── binary_search/
 │   ├── README.md
-│   ├── algorithm/             ← pure BS implementation
 │   ├── classic/
 │   ├── rotated_array/
 │   ├── search_on_answer/
 │   └── bisect_patterns/
 │
+├── sorting/
+│   └── README.md
+│
 ├── stacks_queues/
 │   ├── README.md
 │   ├── matching_validity/
 │   ├── monotonic_stack/
-│   └── deque_patterns/
+│   └── queue_deque/
 │
 ├── linked_lists/
 │   ├── README.md
@@ -49,7 +44,6 @@ dsa/
 │
 ├── trees/
 │   ├── README.md
-│   ├── algorithm/             ← traversal implementations
 │   ├── dfs_recursive/
 │   ├── bfs_level_order/
 │   ├── bst/
@@ -57,7 +51,6 @@ dsa/
 │
 ├── graphs/
 │   ├── README.md
-│   ├── algorithm/             ← Dijkstra, BFS, DFS, Topo Sort
 │   ├── bfs/
 │   ├── dfs/
 │   ├── topological_sort/
@@ -71,21 +64,25 @@ dsa/
 │   ├── knapsack/
 │   └── interval_dp/
 │
-├── templates/                 ← copy-paste ready skeletons
+├── tries/           └── README.md
+├── heaps/           └── README.md
+├── backtracking/    └── README.md
+├── bit_manipulation/└── README.md
+├── math/            └── README.md
+├── intervals/       └── README.md
+│
+├── templates/
 │   ├── binary_search.py
 │   ├── bfs.py
 │   ├── dfs.py
 │   ├── union_find.py
 │   ├── dijkstra.py
+│   ├── trie.py
 │   └── merge_sort.py
 │
 └── notes/
-    └── DSA_Pattern_Bible.pdf
+    └── DSA_Interview_Prep.pdf
 ```
-
-> **`topic/algorithm/`** — full implementation with explanation and complexity notes
-> **`templates/`** — same algorithm, no comments, ready to copy into a solution
-> **`topic/pattern/`** — actual LeetCode problems using that pattern
 
 ---
 
@@ -93,14 +90,20 @@ dsa/
 
 | # | Topic | Patterns | README |
 |---|-------|----------|--------|
-| 1 | 📦 Arrays | Two Pointers · Sliding Window · Prefix Sum · Kadane's · HashMap | [arrays/README.md](./arrays/README.md) |
-| 2 | 🔤 Strings | Sliding Window · Two Pointers · HashMap · Parsing | [strings/README.md](./strings/README.md) |
-| 3 | 🔍 Binary Search | Classic · Rotated Array · Search on Answer · bisect | [binary_search/README.md](./binary_search/README.md) |
-| 4 | 📚 Stacks & Queues | Matching · Monotonic Stack · Deque | [stacks_queues/README.md](./stacks_queues/README.md) |
+| 1 | 📦 Arrays & Strings | Two Pointers · Sliding Window · Prefix Sum · Kadane's · HashMap | [arrays_strings/README.md](./arrays_strings/README.md) |
+| 2 | 🔍 Binary Search | Classic · Rotated Array · Search on Answer · bisect | [binary_search/README.md](./binary_search/README.md) |
+| 3 | 📊 Sorting | Merge · Quick · Heap · Counting · Radix | [sorting/README.md](./sorting/README.md) |
+| 4 | 📚 Stacks & Queues | Matching · Monotonic Stack · Queue & Deque | [stacks_queues/README.md](./stacks_queues/README.md) |
 | 5 | 🔗 Linked Lists | Fast & Slow · Reversal · Merge & Sort · HashMap | [linked_lists/README.md](./linked_lists/README.md) |
 | 6 | 🌳 Trees | DFS · BFS · BST · Construction | [trees/README.md](./trees/README.md) |
-| 7 | 🌐 Graphs | BFS · DFS · Topo Sort · Union-Find · Dijkstra | [graphs/README.md](./graphs/README.md) |
-| 8 | 🧠 Dynamic Programming | 1D · 2D · Knapsack · Interval DP | [dynamic_programming/README.md](./dynamic_programming/README.md) |
+| 7 | 🕸️ Graphs | BFS · DFS · Topo Sort · Union-Find · Dijkstra | [graphs/README.md](./graphs/README.md) |
+| 8 | 💡 Dynamic Programming | 1D · 2D · Knapsack · Interval DP | [dynamic_programming/README.md](./dynamic_programming/README.md) |
+| 9 | 📝 Tries | Insert · Search · Prefix Match · Bitwise Trie | [tries/README.md](./tries/README.md) |
+| 10 | ⛏️ Heaps | Top K · K-way Merge · Two Heaps · Greedy+Heap | [heaps/README.md](./heaps/README.md) |
+| 11 | 🔄 Backtracking | Subsets · Permutations · Combinations · Constraints | [backtracking/README.md](./backtracking/README.md) |
+| 12 | ⚡ Bit Manipulation | XOR Tricks · Bitmask DP · Count Bits · Power of 2 | [bit_manipulation/README.md](./bit_manipulation/README.md) |
+| 13 | 📐 Math & Number Theory | GCD & Primes · Modular Arithmetic · Combinatorics | [math/README.md](./math/README.md) |
+| 14 | 📅 Intervals | Merge · Insert · Non-overlapping · Meeting Rooms | [intervals/README.md](./intervals/README.md) |
 
 ---
 
@@ -108,40 +111,78 @@ dsa/
 
 Mark `✅` when solved, `🔁` when needs review.
 
-### 📦 Arrays
-| Problem | LC # | Difficulty | Pattern | Status |
-|---------|------|-----------|---------|--------|
-| Two Sum II | #167 | 🟢 | Two Pointers | ⬜ |
-| Remove Duplicates from Sorted Array | #26 | 🟢 | Two Pointers | ⬜ |
-| 3Sum | #15 | 🟡 | Two Pointers | ⬜ |
-| Container With Most Water | #11 | 🟡 | Two Pointers | ⬜ |
-| Trapping Rain Water | #42 | 🔴 | Two Pointers | ⬜ |
-| Best Time to Buy and Sell Stock | #121 | 🟢 | Sliding Window | ⬜ |
-| Minimum Size Subarray Sum | #209 | 🟡 | Sliding Window | ⬜ |
-| Longest Repeating Char Replacement | #424 | 🟡 | Sliding Window | ⬜ |
-| Sliding Window Maximum | #239 | 🔴 | Sliding Window | ⬜ |
-| Subarray Sum Equals K | #560 | 🟡 | Prefix Sum | ⬜ |
-| Product of Array Except Self | #238 | 🟡 | Prefix Sum | ⬜ |
-| Maximum Subarray | #53 | 🟡 | Kadane's | ⬜ |
-| Maximum Product Subarray | #152 | 🟡 | Kadane's | ⬜ |
-| Two Sum | #1 | 🟢 | HashMap | ⬜ |
-| Group Anagrams | #49 | 🟡 | HashMap | ⬜ |
-| Longest Consecutive Sequence | #128 | 🟡 | HashMap | ⬜ |
-| Merge Intervals | #56 | 🟡 | Sorting | ⬜ |
-| Minimum Window Substring | #76 | 🔴 | Combined | ⬜ |
+### 📦 Arrays & Strings
 
-### 🔤 Strings
-| Problem | LC # | Difficulty | Pattern | Status |
-|---------|------|-----------|---------|--------|
-| Longest Substring Without Repeating | #3 | 🟡 | Sliding Window | ⬜ |
-| Minimum Window Substring | #76 | 🔴 | Sliding Window | ⬜ |
-| Find All Anagrams in a String | #438 | 🟡 | Sliding Window | ⬜ |
-| Permutation in String | #567 | 🟡 | Sliding Window | ⬜ |
-| Valid Palindrome | #125 | 🟢 | Two Pointers | ⬜ |
-| Longest Palindromic Substring | #5 | 🟡 | Two Pointers | ⬜ |
-| Valid Anagram | #242 | 🟢 | HashMap | ⬜ |
-| Group Anagrams | #49 | 🟡 | HashMap | ⬜ |
-| Decode String | #394 | 🟡 | Parsing | ⬜ |
+#### Two Pointers
+| Problem | LC # | Difficulty | Status |
+|---------|------|-----------|--------|
+| Two Sum II — Input Array Is Sorted | #167 | 🟢 | ⬜ |
+| Remove Duplicates from Sorted Array | #26 | 🟢 | ⬜ |
+| Move Zeroes | #283 | 🟢 | ⬜ |
+| Valid Palindrome | #125 | 🟢 | ⬜ |
+| Reverse String | #344 | 🟢 | ⬜ |
+| 3Sum | #15 | 🟡 | ⬜ |
+| Container With Most Water | #11 | 🟡 | ⬜ |
+| Two Sum Less Than K | #1099 | 🟡 | ⬜ |
+| Trapping Rain Water | #42 | 🔴 | ⬜ |
+
+#### Sliding Window
+| Problem | LC # | Difficulty | Status |
+|---------|------|-----------|--------|
+| Best Time to Buy and Sell Stock | #121 | 🟢 | ⬜ |
+| Maximum Average Subarray I | #643 | 🟢 | ⬜ |
+| Longest Substring Without Repeating Characters | #3 | 🟡 | ⬜ |
+| Minimum Size Subarray Sum | #209 | 🟡 | ⬜ |
+| Longest Repeating Character Replacement | #424 | 🟡 | ⬜ |
+| Permutation in String | #567 | 🟡 | ⬜ |
+| Fruit Into Baskets | #904 | 🟡 | ⬜ |
+| Minimum Window Substring | #76 | 🔴 | ⬜ |
+| Sliding Window Maximum | #239 | 🔴 | ⬜ |
+
+#### Prefix Sum
+| Problem | LC # | Difficulty | Status |
+|---------|------|-----------|--------|
+| Running Sum of 1D Array | #1480 | 🟢 | ⬜ |
+| Find Pivot Index | #724 | 🟢 | ⬜ |
+| Subarray Sum Equals K | #560 | 🟡 | ⬜ |
+| Product of Array Except Self | #238 | 🟡 | ⬜ |
+| Encode and Decode Strings | #271 | 🟡 | ⬜ |
+| Continuous Subarray Sum | #523 | 🟡 | ⬜ |
+| Subarray Sums Divisible by K | #974 | 🟡 | ⬜ |
+
+#### Kadane's
+| Problem | LC # | Difficulty | Status |
+|---------|------|-----------|--------|
+| Maximum Subarray | #53 | 🟡 | ⬜ |
+| Maximum Product Subarray | #152 | 🟡 | ⬜ |
+| Maximum Sum Circular Subarray | #918 | 🟡 | ⬜ |
+| Longest Turbulent Subarray | #978 | 🟡 | ⬜ |
+
+#### HashMap / Frequency
+| Problem | LC # | Difficulty | Status |
+|---------|------|-----------|--------|
+| Two Sum | #1 | 🟢 | ⬜ |
+| Contains Duplicate | #217 | 🟢 | ⬜ |
+| Valid Anagram | #242 | 🟢 | ⬜ |
+| Majority Element | #169 | 🟢 | ⬜ |
+| First Unique Character in a String | #387 | 🟢 | ⬜ |
+| Top K Frequent Elements | #347 | 🟡 | ⬜ |
+| Group Anagrams | #49 | 🟡 | ⬜ |
+| Longest Consecutive Sequence | #128 | 🟡 | ⬜ |
+| Longest Palindromic Substring | #5 | 🟡 | ⬜ |
+
+#### Combined
+| Problem | LC # | Difficulty | Status |
+|---------|------|-----------|--------|
+| 4Sum | #18 | 🟡 | ⬜ |
+| Min Ops to Reduce X to Zero | #1658 | 🟡 | ⬜ |
+| Longest Substring with At Most K Distinct | #340 | 🟡 | ⬜ |
+| Find All Anagrams in a String | #438 | 🟡 | ⬜ |
+| Subarray Sums Divisible by K | #974 | 🟡 | ⬜ |
+| Minimum Window Substring | #76 | 🔴 | ⬜ |
+| Max Sum of 3 Non-Overlapping Subarrays | #689 | 🔴 | ⬜ |
+
+---
 
 ### 🔍 Binary Search
 | Problem | LC # | Difficulty | Pattern | Status |
@@ -156,42 +197,52 @@ Mark `✅` when solved, `🔁` when needs review.
 | Split Array Largest Sum | #410 | 🔴 | Search on Answer | ⬜ |
 | Longest Increasing Subsequence | #300 | 🟡 | bisect | ⬜ |
 
+---
+
 ### 📚 Stacks & Queues
 | Problem | LC # | Difficulty | Pattern | Status |
 |---------|------|-----------|---------|--------|
 | Valid Parentheses | #20 | 🟢 | Matching | ⬜ |
 | Min Stack | #155 | 🟡 | Matching | ⬜ |
 | Evaluate Reverse Polish Notation | #150 | 🟡 | Matching | ⬜ |
+| Basic Calculator II | #227 | 🟡 | Matching | ⬜ |
+| Next Greater Element I | #496 | 🟢 | Monotonic Stack | ⬜ |
 | Daily Temperatures | #739 | 🟡 | Monotonic Stack | ⬜ |
+| Online Stock Span | #901 | 🟡 | Monotonic Stack | ⬜ |
+| Remove K Digits | #402 | 🟡 | Monotonic Stack | ⬜ |
 | Largest Rectangle in Histogram | #84 | 🔴 | Monotonic Stack | ⬜ |
-| Sum of Subarray Minimums | #907 | 🟡 | Monotonic Stack | ⬜ |
-| Sliding Window Maximum | #239 | 🔴 | Deque | ⬜ |
-| LRU Cache | #146 | 🟡 | Deque | ⬜ |
+| Implement Queue Using Stacks | #232 | 🟢 | Queue & Deque | ⬜ |
+| Design Circular Queue | #622 | 🟡 | Queue & Deque | ⬜ |
+| Sliding Window Maximum | #239 | 🔴 | Queue & Deque | ⬜ |
+| LRU Cache | #146 | 🟡 | Queue & Deque | ⬜ |
+
+---
 
 ### 🔗 Linked Lists
 | Problem | LC # | Difficulty | Pattern | Status |
 |---------|------|-----------|---------|--------|
 | Linked List Cycle | #141 | 🟢 | Fast & Slow | ⬜ |
-| Linked List Cycle II | #142 | 🟡 | Fast & Slow | ⬜ |
 | Middle of the Linked List | #876 | 🟢 | Fast & Slow | ⬜ |
+| Linked List Cycle II | #142 | 🟡 | Fast & Slow | ⬜ |
 | Reverse Linked List | #206 | 🟢 | Reversal | ⬜ |
-| Reverse Linked List II | #92 | 🟡 | Reversal | ⬜ |
 | Palindrome Linked List | #234 | 🟢 | Reversal | ⬜ |
+| Reverse Linked List II | #92 | 🟡 | Reversal | ⬜ |
 | Reorder List | #143 | 🟡 | Reversal | ⬜ |
 | Merge Two Sorted Lists | #21 | 🟢 | Merge | ⬜ |
-| Merge K Sorted Lists | #23 | 🔴 | Merge | ⬜ |
 | Sort List | #148 | 🟡 | Merge | ⬜ |
+| Merge K Sorted Lists | #23 | 🔴 | Merge | ⬜ |
 | Copy List with Random Pointer | #138 | 🟡 | HashMap | ⬜ |
 | Remove Nth Node from End | #19 | 🟡 | HashMap | ⬜ |
+
+---
 
 ### 🌳 Trees
 | Problem | LC # | Difficulty | Pattern | Status |
 |---------|------|-----------|---------|--------|
 | Maximum Depth of Binary Tree | #104 | 🟢 | DFS | ⬜ |
 | Invert Binary Tree | #226 | 🟢 | DFS | ⬜ |
-| Path Sum | #112 | 🟢 | DFS | ⬜ |
-| Path Sum II | #113 | 🟡 | DFS | ⬜ |
 | Diameter of Binary Tree | #543 | 🟢 | DFS | ⬜ |
+| Path Sum | #112 | 🟢 | DFS | ⬜ |
 | Binary Tree Max Path Sum | #124 | 🔴 | DFS | ⬜ |
 | Binary Tree Level Order Traversal | #102 | 🟡 | BFS | ⬜ |
 | Binary Tree Right Side View | #199 | 🟡 | BFS | ⬜ |
@@ -201,7 +252,9 @@ Mark `✅` when solved, `🔁` when needs review.
 | Build Tree from Preorder + Inorder | #105 | 🟡 | Construction | ⬜ |
 | Serialize and Deserialize BT | #297 | 🔴 | Construction | ⬜ |
 
-### 🌐 Graphs
+---
+
+### 🕸️ Graphs
 | Problem | LC # | Difficulty | Pattern | Status |
 |---------|------|-----------|---------|--------|
 | Number of Islands | #200 | 🟡 | BFS/DFS | ⬜ |
@@ -216,14 +269,15 @@ Mark `✅` when solved, `🔁` when needs review.
 | Network Delay Time | #743 | 🟡 | Dijkstra | ⬜ |
 | Cheapest Flights Within K Stops | #787 | 🟡 | Dijkstra | ⬜ |
 
-### 🧠 Dynamic Programming
+---
+
+### 💡 Dynamic Programming
 | Problem | LC # | Difficulty | Pattern | Status |
 |---------|------|-----------|---------|--------|
 | Climbing Stairs | #70 | 🟢 | 1D DP | ⬜ |
 | House Robber | #198 | 🟡 | 1D DP | ⬜ |
 | House Robber II | #213 | 🟡 | 1D DP | ⬜ |
 | Coin Change | #322 | 🟡 | 1D DP | ⬜ |
-| Coin Change II | #518 | 🟡 | 1D DP | ⬜ |
 | Word Break | #139 | 🟡 | 1D DP | ⬜ |
 | Unique Paths | #62 | 🟡 | 2D DP | ⬜ |
 | Minimum Path Sum | #64 | 🟡 | 2D DP | ⬜ |
@@ -279,15 +333,18 @@ def solution(args):
 | Dynamic connectivity / grouping | Union-Find |
 | Shortest path with positive weights | Dijkstra |
 | How many ways / minimum cost | Dynamic Programming |
-| Overlapping intervals | Sort by start + Greedy |
+| Overlapping intervals | Sort by start + Greedy or Heap |
 | Top K elements | Heap (heapq) |
 | Next greater / smaller element | Monotonic Stack |
 | Balanced parentheses / nested structure | Stack |
 | Level-by-level in a tree | BFS with queue |
 | Path in tree / subtree check | DFS (recursion) |
 | Cycle detection | Fast & Slow Pointers or DFS + visited |
-| Palindrome | Two Pointers or Expand Around Centre |
-| Anagram / frequency match | HashMap / Counter |
+| Palindrome check or count | Two Pointers or Expand Around Centre |
+| Anagram / character frequency | HashMap / Counter |
+| Store words for prefix lookup | Trie |
+| Find single/missing using XOR | Bit Manipulation |
+| n ≤ 20, try all subsets | Bitmask DP or Backtracking |
 
 ---
 
@@ -300,7 +357,7 @@ def solution(args):
 | n ≤ 1,000 | O(n^2) | 2D DP, O(n²) two-pointer |
 | n ≤ 100,000 | O(n log n) | Merge Sort, Binary Search, Heap |
 | n ≤ 1,000,000 | O(n) | Two Pointers, Sliding Window, BFS/DFS |
-| n > 10,000,000 | O(log n) or O(1) | Binary Search, Math |
+| n > 10,000,000 | O(log n) or O(1) | Binary Search, Math, Bit Tricks |
 
 ---
 

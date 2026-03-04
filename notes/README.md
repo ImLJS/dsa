@@ -8,23 +8,24 @@
 
 | File | Description |
 |------|-------------|
-| [`DSA_Pattern_Bible.pdf`](#dsa-pattern-bible) | Full study guide — all 8 topics, patterns, problems, resources, cheatsheets |
+| [`DSA_Interview_Prep.pdf`](#dsa-interview-prep) | Full study guide — 14 topics, patterns, problems, resources, cheatsheets |
 | [`pattern_cheatsheet.md`](#pattern-cheatsheet) | One-page keyword → pattern lookup |
 | [`complexity_reference.md`](#complexity-reference) | Time & space for every major algorithm |
 | [`python_builtins.md`](#python-builtins) | Counter, deque, heapq, bisect, lru_cache + templates |
 
 ---
 
-## DSA Pattern Bible
+## DSA Interview Prep
 
 The main study PDF. Contains:
-- All 8 topics with patterns, focused problems, and combined practice
-- Per-topic learning resources (NeetCode, VisuAlgo, LeetCode Explore)
-- Appendix A — Pattern Recognition Cheatsheet
-- Appendix B — Python Built-ins Cheatsheet
+- 14 topics with patterns, focused problems, and combined practice
+- Per-pattern: When to Use · How to Solve · Code Template · Practice Problems · Common Mistakes
+- Per-topic learning resources (NeetCode, LeetCode Explore)
+- Appendix A — Pattern Recognition Cheatsheet (keyword → pattern)
+- Appendix B — Python Built-ins & Templates (Counter, deque, heapq, bisect, BFS, DSU, Trie, Backtracking)
 - Appendix C — Time & Space Complexity Reference
 
-Drop `DSA_Pattern_Bible.pdf` here after downloading.
+Drop `DSA_Interview_Prep.pdf` here after downloading.
 
 ---
 
@@ -55,6 +56,9 @@ Drop `DSA_Pattern_Bible.pdf` here after downloading.
 | Cycle detection in list or graph | Fast & Slow Pointers or DFS + visited set |
 | Palindrome check or count | Two Pointers or Expand Around Centre |
 | Anagram / character frequency match | HashMap / Counter |
+| Store words for prefix lookup | Trie |
+| Find single/missing element | XOR / Bit Manipulation |
+| n ≤ 20, try all subsets | Bitmask DP or Backtracking |
 
 ---
 
@@ -63,7 +67,7 @@ Drop `DSA_Pattern_Bible.pdf` here after downloading.
 ### By Input Size — What complexity do you need?
 
 | Input Size (n) | Target Complexity | Typical Approach |
-|----------------|-------------------|-----------------|
+|----------------|-------------------|--------------------|
 | n ≤ 20 | O(2^n) or O(n!) | Backtracking, Brute Force, Bitmask DP |
 | n ≤ 100 | O(n^3) | Interval DP, Floyd-Warshall, 3-loop DP |
 | n ≤ 1,000 | O(n^2) | 2D DP, O(n^2) two-pointer, naive sorting |
@@ -74,7 +78,7 @@ Drop `DSA_Pattern_Bible.pdf` here after downloading.
 ### By Algorithm — What are the costs?
 
 | Operation / Algorithm | Time Complexity | Space Complexity |
-|-----------------------|-----------------|-----------------|
+|-----------------------|-----------------|--------------------|
 | Array access / assignment | O(1) | O(1) |
 | Array linear search | O(n) | O(1) |
 | Binary Search | O(log n) | O(1) |
@@ -88,10 +92,12 @@ Drop `DSA_Pattern_Bible.pdf` here after downloading.
 | Sliding Window | O(n) | O(k) window |
 | Prefix Sum — build | O(n) | O(n) |
 | Prefix Sum — query | O(1) | O(1) |
+| Trie insert / search | O(L) | O(L) |
 | Dijkstra (min-heap) | O((V+E) log V) | O(V) |
 | Union-Find (amortized) | O(α(n)) ≈ O(1) | O(n) |
 | 1D DP | O(n) | O(n) or O(1) |
 | 2D DP | O(n × m) | O(n × m) |
+| Backtracking | O(b^d) | O(d) call stack |
 
 ### Big-O Simplification Rules
 
@@ -112,17 +118,17 @@ Drop `DSA_Pattern_Bible.pdf` here after downloading.
 ```python
 from collections import Counter
 
-freq = Counter(arr)          # {'a': 3, 'b': 1}
+freq = Counter(arr)          # {'a': 3, 'b': 1} — works on list or string
 freq.most_common(k)          # top-k elements
 freq['missing_key']          # returns 0, no KeyError
-Counter(s1) == Counter(s2)   # anagram check
+Counter(s1) == Counter(s2)   # anagram check in O(n)
 ```
 
 ### collections.defaultdict
 ```python
 from collections import defaultdict
 
-graph = defaultdict(list)    # adjacency list, no KeyError
+graph = defaultdict(list)    # adjacency list, no KeyError on missing key
 count = defaultdict(int)     # frequency map, default 0
 graph[node].append(neighbor)
 ```
@@ -132,12 +138,12 @@ graph[node].append(neighbor)
 from collections import deque
 
 dq = deque()
-dq.append(x)       # add right   O(1)
-dq.appendleft(x)   # add left    O(1)
+dq.append(x)       # add right    O(1)
+dq.appendleft(x)   # add left     O(1)
 dq.pop()           # remove right O(1)
 dq.popleft()       # remove left  O(1)
 
-# Never use list.pop(0) — it's O(n)
+# Never use list.pop(0) — it is O(n)
 ```
 
 ### heapq (min-heap)
@@ -145,10 +151,10 @@ dq.popleft()       # remove left  O(1)
 import heapq
 
 h = []
-heapq.heappush(h, val)        # push        O(log n)
-heapq.heappop(h)              # pop min     O(log n)
-heapq.heappush(h, -val)       # max-heap trick
-heapq.nlargest(k, arr)        # top-k
+heapq.heappush(h, val)        # push         O(log n)
+heapq.heappop(h)              # pop min      O(log n)
+heapq.heappush(h, -val)       # max-heap trick — negate values
+heapq.nlargest(k, arr)        # top-k largest
 heapq.heapify(arr)            # build in-place O(n)
 ```
 
@@ -156,18 +162,16 @@ heapq.heapify(arr)            # build in-place O(n)
 ```python
 import bisect
 
-# bisect_left  → first index where arr[i] >= x
-# bisect_right → first index where arr[i] >  x
-bisect.bisect_left(arr, x)
-bisect.bisect_right(arr, x)
-bisect.insort(arr, x)         # insert maintaining sort order
+bisect.bisect_left(arr, x)    # first index where arr[i] >= x
+bisect.bisect_right(arr, x)   # first index where arr[i] >  x
+bisect.insort(arr, x)         # insert maintaining sorted order O(n)
 ```
 
 ### functools.lru_cache
 ```python
 import functools
 
-@functools.lru_cache(None)    # cache all results
+@functools.lru_cache(None)    # memoises all recursive calls
 def dp(i, j):
     if base_case: return ...
     return recurrence(dp(i-1, j), dp(i, j-1))
@@ -175,21 +179,46 @@ def dp(i, j):
 dp.cache_clear()              # reset between test cases if needed
 ```
 
-### Sorting
-```python
-arr.sort()                               # in-place, ascending
-arr.sort(reverse=True)                   # descending
-sorted(arr, key=lambda x: x[1])          # sort by 2nd element
-arr.sort(key=lambda x: (-x[0], x[1]))   # desc then asc (multi-key)
-```
+### Key Templates
 
-### Useful One-liners
 ```python
-arr[::-1]                          # reverse
-[x for x in arr if x > 0]         # filter
-[x for row in matrix for x in row] # flatten 2D
-list(zip(*matrix))                 # transpose matrix
-sum(arr), min(arr), max(arr)
-"".join(lst)                       # list of chars → string
-s.split()                          # string → list of words
+# Binary Search
+lo, hi = 0, len(arr) - 1
+while lo <= hi:
+    mid = lo + (hi - lo) // 2
+    if arr[mid] == target:   return mid
+    elif arr[mid] < target:  lo = mid + 1
+    else:                    hi = mid - 1
+
+# BFS
+from collections import deque
+q = deque([start]); visited = {start}
+while q:
+    node = q.popleft()
+    for nb in graph[node]:
+        if nb not in visited:
+            visited.add(nb); q.append(nb)
+
+# Union-Find
+parent = list(range(n)); rank = [0] * n
+def find(x):
+    if parent[x] != x: parent[x] = find(parent[x])
+    return parent[x]
+def union(a, b):
+    ra, rb = find(a), find(b)
+    if ra == rb: return False
+    if rank[ra] < rank[rb]: ra, rb = rb, ra
+    parent[rb] = ra
+    if rank[ra] == rank[rb]: rank[ra] += 1
+    return True
+
+# Backtracking
+def backtrack(state, start):
+    if is_complete(state):
+        result.append(list(state)); return
+    for i in range(start, len(choices)):
+        if not is_valid(choices[i]): continue
+        state.append(choices[i])    # choose
+        backtrack(state, i + 1)     # explore
+        state.pop()                 # undo
 ```
