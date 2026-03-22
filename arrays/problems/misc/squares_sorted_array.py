@@ -21,20 +21,27 @@ from typing import List
 
 class Solution:
     def sortedSquares(self, nums: List[int]) -> List[int]:
-        n = len(nums)
-        result = [0] * n
-        left, right = 0, n - 1
-        for i in range(n - 1, -1, -1):
-            if abs(nums[left]) > abs(nums[right]):
-                result[i] = nums[left] ** 2
-                left += 1
+        res = [0] * len(nums)
+        L = 0
+        R = len(nums)-1
+        index = R
+
+        while L<=R:
+            if nums[L]**2 >= nums[R]**2:
+                res[index] = nums[L]**2
+                L+=1
             else:
-                result[i] = nums[right] ** 2
-                right -= 1
-        return result
+                res[index] = nums[R]**2
+                R-=1
+            index-=1
+        return res
+
     
 # Notes:
-# We can use two pointers to compare the absolute values of the elements at the left and right ends of the array. We fill the result array from the end to the beginning, placing the larger square at the current position and moving the corresponding pointer inward. This way, we ensure that the result array is sorted in non-decreasing order.
+# 1. We initialize a result array `res` of the same length as `nums` to store the squares.
+# 2. We use two pointers, `L` starting at the beginning of the array and `R` starting at the end of the array.
+# 3. We compare the squares of the elements at the `L` and `R` pointers. We place the larger square at the current `index` in the result array and move the corresponding pointer inward.
+# 4. We continue this process until the `L` pointer exceeds the `R` pointer, ensuring that all squares are placed in the correct order in the result array.
 
 # Time Complexity: O(n)
 # Space Complexity: O(n)

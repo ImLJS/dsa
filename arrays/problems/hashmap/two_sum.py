@@ -33,3 +33,14 @@ class Solution:
             mapping[num] = index
         
         return []
+
+# Note:
+
+# 1. We can use a hash map to store the indices of the numbers we have seen so far.
+# 2. For each number, we calculate the difference between the target and the current number.
+# 3. If the difference is already in the hash map, we have found our solution and we return the indices.
+# 4. If not, we add the current number and its index to the hash map and continue iterating through the array.
+# 5. The time complexity of this solution is O(n) because we traverse the array once, and the space complexity is also O(n) in the worst case if all numbers are unique.
+
+# Time Complexity: O(n)
+# Space Complexity: O(n)
